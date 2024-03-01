@@ -3,15 +3,13 @@ package kz.aitu.assign4.controllers;
 import kz.aitu.assign4.models.User;
 import kz.aitu.assign4.services.interfaces.UserServiceInterfaces;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("users")
+@RequestMapping("/users")
 public class UserControllers {
     private final UserServiceInterfaces service;
 
@@ -21,7 +19,7 @@ public class UserControllers {
 
     @GetMapping("hello")
     public String sayHello(){
-        return "Hello Maxat";
+        return "Hello Akerke";
     }
 
     @GetMapping("a")
@@ -35,9 +33,8 @@ public class UserControllers {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND); //404
         }
         return new ResponseEntity(user, HttpStatus.OK); //200
-
     }
-    @PostMapping("g")
+    @PostMapping("addUser")
     public ResponseEntity<User> create(@RequestBody User user){
         User createdUser = service.create(user);
         if(createdUser == null){
@@ -45,9 +42,18 @@ public class UserControllers {
         }
         return new ResponseEntity<>(createdUser,HttpStatus.CREATED); //201
     }
+    @GetMapping("/name/{user_name}")
+    public List<User> getAllBySurname(@PathVariable("user_name") String surname){
+        return service.getbyName(surname);
+    }
 
-    @GetMapping("/surname/{user_surname}")
-    public List<User> getAllBySurname(@PathVariable("user_surname") String surname){
-        return service.getBySurname(surname);
+    @DeleteMapping("delID/{user_id}")
+    public ResponseEntity<Void> deleteById(@PathVariable("ClientID") int id) {
+        User user = service.getById(id);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        service.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
