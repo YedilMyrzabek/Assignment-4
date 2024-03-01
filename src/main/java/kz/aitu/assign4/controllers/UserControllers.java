@@ -56,4 +56,9 @@ public class UserControllers {
         service.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    @PutMapping("/update/{user_id}")
+    public User updateUser(@PathVariable int user_id,@RequestBody User user){
+        user.setId(user_id);
+        return service.updateUser(user);
+    }
 }

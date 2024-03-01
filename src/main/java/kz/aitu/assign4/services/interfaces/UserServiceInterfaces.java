@@ -10,5 +10,6 @@ public interface UserServiceInterfaces {
     User create(User user);
     List<User> getbyName(String name);
     void deleteById(int id);
+    User updateUser(User user);
 
 }

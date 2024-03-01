@@ -38,5 +38,9 @@ public class UserService implements UserServiceInterfaces {
     public void deleteById(int id) {
         repo.deleteById(id);
     }
+    @Override
+    public User updateUser(User user) {
+        return repo.save(user);
+    }
 
 }
